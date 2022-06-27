@@ -39,7 +39,15 @@ Route::middleware(['auth'])->group(function() {
  * admin role
  */
 Route::middleware(['auth', 'role:admin'])->group(function() {
+
+    Route::get('/search', [
+        \App\Http\Controllers\SearchController::class,
+        'index'
+    ])->name('search');
+
+
     Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::resource('books', \App\Http\Controllers\BookController::class);
 });
 
 require __DIR__.'/auth.php';

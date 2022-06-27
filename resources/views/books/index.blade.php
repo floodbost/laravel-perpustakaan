@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Users') }}
+            {{ __('Books') }}
         </h2>
     </x-slot>
 
@@ -13,7 +13,7 @@
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                 <div class="text-right">
-                                    <a href="{{ route('users.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Create User</a>
+                                    <a href="{{ route('search') }}" class="inline-flex items-center px-4 py-2 bg-blue-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Add Book</a>
                                 </div>
                                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mt-5">
                                     <x-success-message />
@@ -21,44 +21,48 @@
                                         <thead class="bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Name
+                                                    Cover
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Email
+                                                    Title
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Role
+                                                    ISBN
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Author
                                                 </th>
                                                 <th scope="col" class="relative px-6 py-3">
-                                                    <span class="sr-only">Edit</span>
+                                                    <span class="sr-only">Add To Collection</span>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                        @foreach ($users as $user)
+                                        @foreach ($books as $book)
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $user->name }}
+                                                    @if(!empty($book->cover_path))
+                                                        <img src="{{ $book->cover_path }}" alt="cover" class="object-contain h-20" />
+                                                    @else
+                                                        -
+                                                    @endif
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $user->email }}
+                                                    {{ $book->title }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    <span class="bg-green-100 px-2 py-1 rounded-md">
-                                                        {{ $user->role->name }}
-                                                    </span>
+                                                    {{ $book->isbn }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ $book->author }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    @if ($user->role_id != 1)
-                                                    <a href="{{ route('users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900">
-                                                        Edit
-                                                    </a>
-                                                    <form class="inline" action="{{ route('users.destroy', $user) }}" method="POST">
+                                                    <x-link class="hover:bg-yellow-500" href="{{ route('books.edit', $book) }}">Edit</x-link>
+                                                    <form class="inline" action="{{ route('books.destroy', $book) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button class="text-red-400 mx-2" onclick="return confirm('Are you sure delete this?');">Delete</button>
+                                                        <x-button-delete class="bg-red-400 hover:bg-red-600" onclick="return confirm('Are you sure delete this?');">Delete</x-button-delete>
                                                     </form>
-                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -66,9 +70,7 @@
                                     </table>
 
                                 </div>
-                                <div class="mt-4">
-                                    {{ $users->links() }}
-                                </div>
+
                             </div>
                         </div>
                     </div>

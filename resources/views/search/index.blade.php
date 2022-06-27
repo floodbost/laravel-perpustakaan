@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Users') }}
+            {{ __('Search Book') }}
         </h2>
     </x-slot>
 
@@ -12,8 +12,13 @@
                     <div class="flex flex-col">
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="text-right">
-                                    <a href="{{ route('users.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Create User</a>
+                                <div class="text-left">
+                                    <form method="GET">
+                                        <x-input id="search" class="block mt-1 inline-block" placeholder="Search  ISBN" type="text" name="isbn" :value="request('isbn')" />
+                                        <x-button class="inline-block pt-3 pb-3 bg-blue-400" type="submit">
+                                            {{ __('Search') }}
+                                        </x-button>
+                                    </form>
                                 </div>
                                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mt-5">
                                     <x-success-message />
@@ -21,44 +26,46 @@
                                         <thead class="bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Name
+                                                    Cover
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Email
+                                                    Title
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Role
+                                                    ISBN
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Author
                                                 </th>
                                                 <th scope="col" class="relative px-6 py-3">
-                                                    <span class="sr-only">Edit</span>
+                                                    <span class="sr-only">Add To Collection</span>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                        @foreach ($users as $user)
+                                        @foreach ($books as $isbn => $book)
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $user->name }}
+                                                    @if(isset($book['cover']))
+                                                    <img src="{{ $book['cover']['medium'] }}" alt="cover" class="object-contain h-20" />
+                                                    @else
+                                                        -
+                                                    @endif
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $user->email }}
+                                                    {{ $book['title'] }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    <span class="bg-green-100 px-2 py-1 rounded-md">
-                                                        {{ $user->role->name }}
-                                                    </span>
+                                                    {{ substr($isbn, 5) }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ $book['authors'][0]['name'] }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    @if ($user->role_id != 1)
-                                                    <a href="{{ route('users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900">
-                                                        Edit
-                                                    </a>
-                                                    <form class="inline" action="{{ route('users.destroy', $user) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="text-red-400 mx-2" onclick="return confirm('Are you sure delete this?');">Delete</button>
+                                                    <form class="inline" action="{{ route('books.create') }}" method="GET">
+                                                        <input type="hidden" name="isbn" value="{{ request()->query('isbn') }}" />
+                                                        <x-button>Add To collection</x-button>
                                                     </form>
-                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -66,9 +73,7 @@
                                     </table>
 
                                 </div>
-                                <div class="mt-4">
-                                    {{ $users->links() }}
-                                </div>
+
                             </div>
                         </div>
                     </div>
