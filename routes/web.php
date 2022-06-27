@@ -47,6 +47,10 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
         'index'
     ])->name('search');
 
+    Route::get('/booking', [
+        \App\Http\Controllers\BookingController::class,
+        'index'
+    ])->name('booking');
 
     Route::resource('users', \App\Http\Controllers\UserController::class);
 });
