@@ -39,9 +39,13 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        //check total user kalau kosong user pertama jadi role admin
+        $total_user = User::query()->count();
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'role_id' => $total_user == 0 ? 1 : 2,
             'password' => Hash::make($request->password),
         ]);
 

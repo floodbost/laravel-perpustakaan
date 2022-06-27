@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    /**
+     * @param UpdateProfileRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(UpdateProfileRequest $request)
     {
         auth()->user()->update($request->only('name', 'email'));
