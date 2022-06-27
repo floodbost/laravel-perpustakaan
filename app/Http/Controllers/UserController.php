@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -39,9 +40,10 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::default()],
         ]);
-        $fields = $request->only(['name', 'email', 'role_id', 'password']);
+        $fields = $request->only(['name', 'email', 'role_id']);
         $user = new User();
         $user->fill($fields);
+        $user->setAttribute('password', Hash::make($request->input('password')));
         $user->save();
         return redirect()->route('users.index')->with('message', 'Success create a user');
     }
@@ -74,8 +76,11 @@ class UserController extends Controller
      */
     public function update(UpdateProfileRequest $request, User $user)
     {
-        $fields = $request->only('name', 'email', 'role_id', 'password');
+        $fields = $request->only('name', 'email', 'role_id');
         $user->fill($fields);
+        if ($password = $request->input('password')) {
+            $user->setAttribute('password', Hash::make($password));
+        }
         $user->saveOrFail();
         return redirect()
                 ->route('users.index')

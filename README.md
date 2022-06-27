@@ -11,9 +11,22 @@
 edit file .env sesuaikan dengan konfigurasi database
 kemudian jalankan perintah berikut ini
 ```phpregexp
+composer install
 php artisan migrate
 php artisan db:seed
 ```
+
+setelah itu jalankan 
+```phpregexp
+php artisan serve
+```
+
+### Credentials
+```phpregexp
+username: admin@admin.com
+password: 123456
+```
+
 
 ## About Laravel
 
