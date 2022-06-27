@@ -25,15 +25,15 @@
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
-                            {{ __('Books') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('search')" :active="request()->routeIs('search')">
-                            {{ __('Search Book API') }}
+                            {{ __('Daftar Pinjaman') }}
                         </x-nav-link>
                     </div>
                 @endif
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                        {{ __('Buku') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

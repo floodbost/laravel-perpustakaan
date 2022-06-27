@@ -44,7 +44,7 @@
                                                     {{ $user->email }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    <span class="bg-green-100 px-2 py-1 rounded-md">
+                                                    <span class="bg-{{ $user->role_id == 1 ? 'green' : 'gray' }}-100 px-2 py-1 rounded-md">
                                                         {{ $user->role->name }}
                                                     </span>
                                                 </td>

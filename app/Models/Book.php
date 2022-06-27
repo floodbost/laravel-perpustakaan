@@ -18,4 +18,9 @@ class Book extends Model
         'isbn', 'title', 'cover_path', 'author', 'publisher',
         'publish_date', 'description'
     ];
+
+    public function booking(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

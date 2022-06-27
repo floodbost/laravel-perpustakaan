@@ -13,7 +13,9 @@
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                 <div class="text-right">
+                                    @if(auth()->user()->isAdmin())
                                     <a href="{{ route('search') }}" class="inline-flex items-center px-4 py-2 bg-blue-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Add Book</a>
+                                    @endif
                                 </div>
                                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mt-5">
                                     <x-success-message />
@@ -31,6 +33,9 @@
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Author
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Status
                                                 </th>
                                                 <th scope="col" class="relative px-6 py-3">
                                                     <span class="sr-only">Add To Collection</span>
@@ -56,13 +61,37 @@
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     {{ $book->author }}
                                                 </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    @if($book->is_booked)
+                                                        <span class="bg-yellow-100 px-2 py-1 rounded-md">Dipinjam</span>
+                                                    @else
+                                                        <span class="bg-green-300 px-2 py-1 rounded-md ">Tersedia</span>
+                                                    @endif
+
+                                                </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    @if(auth()->user()->isAdmin())
                                                     <x-link class="hover:bg-yellow-500" href="{{ route('books.edit', $book) }}">Edit</x-link>
                                                     <form class="inline" action="{{ route('books.destroy', $book) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <x-button-delete class="bg-red-400 hover:bg-red-600" onclick="return confirm('Are you sure delete this?');">Delete</x-button-delete>
                                                     </form>
+                                                    @else
+                                                        @if(!$book->is_booked)
+                                                            <form class="inline" action="{{ route('books.update', $book) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <x-button-delete class="bg-blue-400 hover:bg-blue-600" onclick="return confirm('apakah anda yakin akan meminjam buku ini?');">Pinjam</x-button-delete>
+                                                            </form>
+                                                        @elseif($book->booking[0] && $book->booking[0]->user_id == auth()->user()->getAuthIdentifier())
+                                                            <form class="inline" action="{{ route('books.update', $book) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <x-button-delete class="bg-red-400 hover:bg-blue-600" onclick="return confirm('apakah anda yakin akan meminjam buku ini?');">Kembalikan</x-button-delete>
+                                                            </form>
+                                                        @endif
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

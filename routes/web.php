@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function() {
         \App\Http\Controllers\ProfileController::class,
         'update'
     ])->name('profile.update');
+
+    Route::resource('books', \App\Http\Controllers\BookController::class);
 });
 
 /**
@@ -47,7 +49,6 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
 
 
     Route::resource('users', \App\Http\Controllers\UserController::class);
-    Route::resource('books', \App\Http\Controllers\BookController::class);
 });
 
 require __DIR__.'/auth.php';
