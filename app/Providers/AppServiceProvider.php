@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
     }
 
     /**
@@ -27,12 +28,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
 
-        Blade::directive('isAdmin', function() {
-            return "<?php if(Auth::user()->isAdmin()): ?>";
-        });
-
-        Blade::directive('endIsAdmin', function() {
-            return "<?php endif; ?>";
-        });
     }
 }

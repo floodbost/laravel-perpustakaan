@@ -7,9 +7,44 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @OA\Tag(
+ *     name="Auth",
+ *     description="API untuk authentikasi"
+ * )
+ *
+ */
 class AuthController extends Controller
 {
     /**
+     * @OA\Put(
+     *     path="/api/login",
+     *     summary="Authentikasi user",
+     *     tags={"auth"},
+     *     @OA\RequestBody(
+     *      @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *         required={"email", "password"},
+     *         @OA\Property(
+     *           description="Email",
+     *           property="email",
+     *           type="string",
+     *           example="admin@admin.com"
+     *         ),
+     *         @OA\Property(
+     *           description="Password Login",
+     *           property="password",
+     *           type="string",
+     *           example="123456"
+     *         ),
+     *       )
+     *     )
+     *   ),
+     *   @OA\Response(response=200, description="Success create"),
+     *   @OA\Response(response=422, description="Unprocessable Content or validation error"),
+     * )
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -33,6 +68,21 @@ class AuthController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/me",
+     *     summary="Melihat current user ",
+     *     description="Melihat current user",
+     *     tags={"auth"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="unexpected error",
+     *         @OA\Schema(ref="#/components/schemas/Error")
+     *     )
+     * )
      * @return \Illuminate\Http\JsonResponse
      */
     public function me(): \Illuminate\Http\JsonResponse

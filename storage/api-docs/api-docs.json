@@ -1,0 +1,129 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Simple API perpustakaan",
+        "description": "Api untuk perpustakaan",
+        "contact": {
+            "name": "Swagger API Team"
+        },
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API server"
+        }
+    ],
+    "paths": {
+        "/api/login": {
+            "put": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Authentikasi user",
+                "operationId": "20e5f41d502b3542fc6a84d505d3bc47",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Email",
+                                        "type": "string",
+                                        "example": "admin@admin.com"
+                                    },
+                                    "password": {
+                                        "description": "Password Login",
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success create"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content or validation error"
+                    }
+                }
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Melihat current user ",
+                "description": "Melihat current user",
+                "operationId": "8367feff40ba10e43187792cad3132c1",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "unexpected error"
+                    }
+                }
+            }
+        },
+        "/api/booking": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Melihat buku yang telah di pinjam",
+                "description": "elihat buku yang telah di pinjam. api ini khusus untuk role user",
+                "operationId": "139d0a348433c75cd5dfae456fcdc6b3",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "unexpected error"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Melihat seluruh user",
+                "description": "Menampilkan seluruh user",
+                "operationId": "566aed8efb436ca506e0ef51a032ecd9",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "unexpected error"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "API untuk authentikasi"
+        },
+        {
+            "name": "Booking",
+            "description": "Api untuk menampilan daftar buku yg telah di book"
+        },
+        {
+            "name": "Users",
+            "description": "Tag User"
+        }
+    ]
+}

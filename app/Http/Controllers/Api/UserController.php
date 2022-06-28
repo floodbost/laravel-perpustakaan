@@ -8,9 +8,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * @OA\Tag(
+ *     name="Users",
+ *     description="Tag User"
+ * )
+ *
+ */
 class UserController extends Controller
 {
     /**
+     * @OA\Get(
+     *     path="/api/users",
+     *     summary="Melihat seluruh user",
+     *     description="Menampilkan seluruh user",
+     *     tags={"Users"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="unexpected error",
+     *         @OA\Schema(ref="#/components/schemas/Error")
+     *     )
+     * )
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
