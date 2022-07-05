@@ -32,7 +32,7 @@
                             <div class="grid grid-rows-2 gap-6">
                                 <div>
                                     <x-label for="isbn" :value="__('ISBN')" />
-                                    <x-input id="isbn" class="block mt-1 w-full" type="text" name="isbn" value="{{ $book->isbn }}" autofocus />
+                                    <x-forms.input id="isbn" class="block mt-1 w-full" type="text" name="isbn"  value="{{ $book->isbn }}" autofocus />
                                 </div>
                                 <div>
                                     <x-label for="title" :value="__('Title')" />

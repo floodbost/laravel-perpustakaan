@@ -20,24 +20,24 @@
                             <div class="grid grid-rows-2 gap-6">
                                 <div>
                                     <x-label for="name" :value="__('Name')" />
-                                    <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{ old('name') }}" autofocus />
+                                    <x-forms.input id="name" class="block mt-1 w-full" type="text" name="name" value="{{ old('name') }}" autofocus />
                                 </div>
                                 <div>
                                     <x-label for="email" :value="__('Email')" />
-                                    <x-input id="email" class="block mt-1 w-full" type="email" name="email" value="{{ old('email') }}" autofocus />
+                                    <x-forms.input id="email" class="block mt-1 w-full" type="email" name="email" value="{{ old('email') }}" autofocus />
                                 </div>
                             </div>
                             <div class="grid grid-rows-2 gap-6">
                                 <div>
                                     <x-label for="new_password" :value="__('New password')" />
-                                    <x-input id="new_password" class="block mt-1 w-full"
+                                    <x-forms.input id="new_password" class="block mt-1 w-full"
                                              type="password"
                                              name="password"
                                              autocomplete="new-password" />
                                 </div>
                                 <div>
                                     <x-label for="confirm_password" :value="__('Confirm password')" />
-                                    <x-input id="confirm_password" class="block mt-1 w-full"
+                                    <x-forms.input id="confirm_password" class="block mt-1 w-full"
                                              type="password"
                                              name="password_confirmation"
                                              autocomplete="confirm-password" />
